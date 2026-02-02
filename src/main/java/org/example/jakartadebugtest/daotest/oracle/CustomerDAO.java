@@ -15,5 +15,5 @@ public interface CustomerDAO {
 
     RowSet selectCustomersRS();
 
-    Collection selectCustomersTO();
+    Collection<Customer> selectCustomersTO();
 }

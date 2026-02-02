@@ -20,7 +20,7 @@ public class Main {
         custDAO.deleteCustomer();
         Customer criteria = new Customer();
         criteria.setCity("New York");
-        Collection customersList =
+        Collection<Customer> customersList =
                 custDAO.selectCustomersTO();
     }
 }

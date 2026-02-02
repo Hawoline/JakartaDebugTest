@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class SqlDaoFactory implements DaoFactory {
+public class SqlDaoFactory implements DaoFactory<Connection> {
     private final String url = "jdbc:sqlite:C:" + File.separator +
             "Users" + File.separator +
             "Hawoline" + File.separator +
@@ -27,7 +27,7 @@ public class SqlDaoFactory implements DaoFactory {
     //C:\Users\Hawoline\IdeaProjects\JakartaDebugTest\dowork_dao.sqlite
     //C:\Users\Hawoline\IdeaProjects\JakartaDebugTest\dowork_dao.sqlite
     @Override
-    public Connection getConnection() {
+    public Connection getContext() {
         try {
             return DriverManager.getConnection(url);
         } catch (SQLException e) {
@@ -36,12 +36,17 @@ public class SqlDaoFactory implements DaoFactory {
     }
 
     @Override
-    public Dao<Student, Integer> getStudentDao(Connection connection) {
+    public Dao<Student, Integer> getStudentDao(Connection context) {
         return null;
     }
 
     @Override
-    public Dao<Group, Integer> getGroupDao(Connection connection) {
-        return new SqlGroupDao(connection);
+    public Dao<Group, Integer> getGroupDao(Connection context) {
+        return new SqlGroupDao(context);
+    }
+
+    @Override
+    public Dao getDao(Connection connection) {
+        return null;
     }
 }

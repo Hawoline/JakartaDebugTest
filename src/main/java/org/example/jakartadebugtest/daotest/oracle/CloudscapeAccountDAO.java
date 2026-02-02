@@ -1,4 +1,4 @@
 package org.example.jakartadebugtest.daotest.oracle;
 
-public class CloudscapeAccountDAO extends AccountDAO {
+public class CloudscapeAccountDAO implements AccountDAO {
 }

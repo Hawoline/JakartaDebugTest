@@ -24,9 +24,9 @@ class SqlDaoFactoryTest {
 
     @Test
     void testGetAll() throws SQLException {
-        DaoFactory daoFactory = new SqlDaoFactory();
+        DaoFactory<Connection> daoFactory = new SqlDaoFactory();
         List<Group> groups;
-        try (Connection connection = daoFactory.getConnection()) {
+        try (Connection connection = daoFactory.getContext()) {
             Dao<Group, Integer> groupDao = daoFactory.getGroupDao(connection);
             groups = groupDao.getAll();
         } catch (org.example.jakartadebugtest.daotest.dowork.data.PersistException e) {
