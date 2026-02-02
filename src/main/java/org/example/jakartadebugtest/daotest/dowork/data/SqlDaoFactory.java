@@ -24,8 +24,6 @@ public class SqlDaoFactory implements DaoFactory<Connection> {
         }
     }
 
-    //C:\Users\Hawoline\IdeaProjects\JakartaDebugTest\dowork_dao.sqlite
-    //C:\Users\Hawoline\IdeaProjects\JakartaDebugTest\dowork_dao.sqlite
     @Override
     public Connection getContext() {
         try {
