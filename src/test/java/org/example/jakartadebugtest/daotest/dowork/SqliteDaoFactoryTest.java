@@ -1,6 +1,7 @@
 package org.example.jakartadebugtest.daotest.dowork;
 
-import org.example.jakartadebugtest.daotest.dowork.data.SqlDaoFactory;
+import org.example.jakartadebugtest.daotest.dowork.data.PersistException;
+import org.example.jakartadebugtest.daotest.dowork.data.SqliteDaoFactory;
 import org.example.jakartadebugtest.daotest.dowork.domain.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SqlDaoFactoryTest {
+class SqliteDaoFactoryTest {
+    private DaoFactory<Connection> daoFactory = new SqliteDaoFactory();
 
     @BeforeEach
     void setUp() {
@@ -24,7 +26,6 @@ class SqlDaoFactoryTest {
 
     @Test
     void testGetAll() throws SQLException {
-        DaoFactory<Connection> daoFactory = new SqlDaoFactory();
         List<Group> groups;
         try (Connection connection = daoFactory.getContext()) {
             Dao<Group, Integer> groupDao = daoFactory.getGroupDao(connection);
@@ -34,5 +35,9 @@ class SqlDaoFactoryTest {
         }
         assertNotNull(groups);
         assertFalse(groups.isEmpty());
+    }
+
+    @Test
+    void testCreate() throws PersistException {
     }
 }

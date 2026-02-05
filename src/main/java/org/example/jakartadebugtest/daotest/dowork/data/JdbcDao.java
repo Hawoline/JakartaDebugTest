@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class JdbcDao<T extends Identified<PK>, PK extends Serializable> implements Dao<T, PK> {
+public abstract class JdbcDao<T extends Identified<PK>, PK extends Integer> implements Dao<T, PK> {
     private Connection connection;
 
     protected JdbcDao(Connection connection) {
@@ -53,12 +53,12 @@ public abstract class JdbcDao<T extends Identified<PK>, PK extends Serializable>
         return persistInstance;
     }
 
-    protected abstract void prepareStatementForInsert(PreparedStatement preparedStatement, T t);
+    protected abstract void prepareStatementForInsert(PreparedStatement preparedStatement, T t) throws PersistException;
 
     protected abstract String getCreateQuery();
 
     @Override
-    public T getByPk(int id) throws PersistException {
+    public T getByPK(Integer id) throws PersistException {
         List<T> list;
         String query = getSelectQuery();
         query += " where id = ?";
@@ -94,7 +94,7 @@ public abstract class JdbcDao<T extends Identified<PK>, PK extends Serializable>
         }
     }
 
-    protected abstract void prepareStatementForUpdate(PreparedStatement preparedStatement, T t);
+    protected abstract void prepareStatementForUpdate(PreparedStatement preparedStatement, T t) throws PersistException;
 
     protected abstract String getUpdateQuery();
 

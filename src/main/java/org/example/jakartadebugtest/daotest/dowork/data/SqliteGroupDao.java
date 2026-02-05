@@ -1,6 +1,7 @@
 package org.example.jakartadebugtest.daotest.dowork.data;
 
 import org.example.jakartadebugtest.daotest.dowork.domain.Group;
+import org.example.jakartadebugtest.daotest.dowork.domain.Identified;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlGroupDao extends JdbcDao<Group, Integer> {
-    protected SqlGroupDao(Connection connection) {
+public class SqliteGroupDao extends JdbcDao<Group, Integer> {
+    protected SqliteGroupDao(Connection connection) {
         super(connection);
     }
 
@@ -44,36 +45,50 @@ public class SqlGroupDao extends JdbcDao<Group, Integer> {
     }
 
     @Override
-    protected void prepareStatementForInsert(PreparedStatement preparedStatement, Group group) {
+    protected void prepareStatementForInsert(PreparedStatement preparedStatement, Group group) throws PersistException {
+        try {
+            preparedStatement.setInt(1, group.getNumber());
+            preparedStatement.setString(2, group.getDepartment());
+        } catch (SQLException e) {
+            throw new PersistException(e);
+        }
     }
 
     @Override
     protected String getCreateQuery() {
-        return "";
+        return "INSERT INTO 'Group' (number, department) \n" +
+                "VALUES (?, ?);";
     }
 
     @Override
-    protected void prepareStatementForUpdate(PreparedStatement preparedStatement, Group group) {
-
+    protected void prepareStatementForUpdate(PreparedStatement preparedStatement, Group group) throws PersistException {
+        try {
+            preparedStatement.setInt(1, group.getNumber());
+            preparedStatement.setString(2, group.getDepartment());
+            preparedStatement.setInt(3, group.getId());
+        } catch (SQLException e) {
+            throw new PersistException(e);
+        }
     }
 
     @Override
     protected String getUpdateQuery() {
-        return "";
+        return "UPDATE 'Group' SET number= ?, department = ? WHERE id= ?;";
     }
 
     @Override
     protected String getDeleteQuery() {
-        return "";
+        return "DELETE FROM 'Group' WHERE id= ?;";
     }
 
     @Override
     public String getSelectQuery() {
-        return "SELECT * FROM \"Group\" ";
+        return "SELECT * FROM 'Group' ";
     }
 
     @Override
-    public Group create() {
-        return null;
+    public Group create() throws PersistException {
+        Group g = new Group();
+        return persist(g);
     }
 }
